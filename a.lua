@@ -7,7 +7,7 @@ void NimMain();
 
 local a = ffi.load("./a.so")
 
-print "Calling NimMain"
+print "calling NimMain"
 a.NimMain()
 
 print "calling a.add5(4)"
