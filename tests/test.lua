@@ -1,14 +1,11 @@
 local ffi = require "ffi"
 
-ffi.cdef [[
-int add5(int);
-void NimMain();
-]]
+-- Define the nim function into luajit ffi
+ffi.cdef "int add5(int);"
 
+-- load the library
 local a = ffi.load("./lib/a.so")
 
-print "calling NimMain"
-a.NimMain()
-
+-- Use the function
 print "calling a.add5(4)"
 print(a.add5(4))
