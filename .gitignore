@@ -2,3 +2,4 @@ nimcache
 *.so
 bin/fromnim
 bin/dynamic
+bin/objtest
