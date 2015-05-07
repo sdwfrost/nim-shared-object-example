@@ -7,6 +7,7 @@ build:
 	@strip lib/b.so
 
 test: build
-	luajit test.lua
+	luajit tests/test.lua
+	python tests/test.py
 	bin/fromnim
 	bin/dynamic
