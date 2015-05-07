@@ -5,7 +5,7 @@ int add5(int);
 void NimMain();
 ]]
 
-local a = ffi.load("./a.so")
+local a = ffi.load("./lib/a.so")
 
 print "calling NimMain"
 a.NimMain()

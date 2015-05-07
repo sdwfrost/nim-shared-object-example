@@ -3,7 +3,7 @@ import dynlib
 var add5Func: proc (a: int): int
 
 echo("using a.so (will add 5)")
-var lib1 = dynlib.loadLib("./a.so")
+var lib1 = dynlib.loadLib("./lib/a.so")
 
 add5Func = cast[proc (a: int): int {.nimcall.}](
   lib1.symAddr("add5"))
@@ -11,7 +11,7 @@ add5Func = cast[proc (a: int): int {.nimcall.}](
 echo(add5Func(4))
 
 echo("using b.so (will add something else!)")
-var lib2 = dynlib.loadLib("./b.so")
+var lib2 = dynlib.loadLib("./lib/b.so")
 
 add5Func = cast[proc (a: int): int {.nimcall.}](
   lib2.symAddr("add5"))

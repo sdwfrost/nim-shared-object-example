@@ -1,4 +1,4 @@
 nimcache
 *.so
-fromnim
-dynamic
+bin/fromnim
+bin/dynamic
