@@ -22,28 +22,53 @@ Run `make build`:
 
 ```console
 $ make build
-nim c --noMain --header --app:lib -o:a.so a.nim
-config/nim.cfg(53, 3) Hint: added path: '/home/xena/.babel/pkgs/' [Path]
-config/nim.cfg(54, 3) Hint: added path: '/home/xena/.nimble/pkgs/' [Path]
-Hint: used config file '/home/xena/prefix/nim/config/nim.cfg' [Conf]
-Hint: system [Processing]
-Hint: a [Processing]
-[Linking]
-Hint: operation successful (9075 lines compiled; 0.129 sec total; 14.143MB;
-Debug Build) [SuccessX]
-164K    a.so
+nim c -d:release --noMain --header --deadCodeElim:on --app:lib -o:../lib/a.so ./src/add5.nim > /dev/null
+nim c -d:release --noMain --header --deadCodeElim:on --app:lib -o:../lib/b.so ./src/add5other.nim > /dev/null
+nim c -d:release -o:../bin/fromnim --deadCodeElim:on ./src/fromnim.nim > /dev/null
+nim c -d:release -o:../bin/dynamic --deadCodeElim:on ./src/dynamic.nim > /dev/null
 ```
 
-A file called `a.so` should show up in the current working directory.
+Several binaries and libraries will be put into `bin/` and `lib`. To use these 
+you can wrap the function prototype of `add5` with the following C-like 
+declaration:
+
+```c
+int add5(int);
+```
+
+This is fairly trivial in python:
+
+```python
+from ctypes import cdll
+
+a = cdll.LoadLibrary("./lib/a.so")
+
+print "Calling a.so add5 from python"
+print a.add5(4)
+```
 
 Testing This
 ------------
+
+You need to have luajit and python 2 installed for the tests to work.
 
 Run `make test`:
 
 ```console
 $ make test
-luajit a.lua
+luajit tests/test.lua
+calling NimMain
 calling a.add5(4)
 9
+python tests/test.py
+Calling a.so add5 from python
+9
+bin/fromnim
+Running add5(4)
+9
+bin/dynamic
+using a.so (will add 5)
+9
+using b.so (will add something else!)
+11
 ```
